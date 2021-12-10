@@ -12,6 +12,7 @@ export default {
   $color:red;
   .red{
     color: $color;
+    border: 1px solid #2c3e50;
   }
 
 </style>
