@@ -1,27 +1,39 @@
 <template>
   <div>
-    <nav-bar class="home-nav">
-      <template v-slot:nav-left>
-        <div></div>
-      </template>
-      <template v-slot:nav-center>
-        <div>购物中心</div>
-      </template>
-      <template v-slot:nav-right>
-        <div></div>
-      </template>
-    </nav-bar>
+    <home-nar></home-nar>
+    <home-swiper :banners="banners"></home-swiper>
   </div>
 
 </template>
 
 <script>
-
-
-import NavBar from "components/common/navbar/NavBar";
+import HomeSwiper from "./childComps/HomeSwiper";
+import {getHomeMultidata} from "../../network/home";
+import HomeNar from "./childComps/HomeNar";
 export default {
   name: "Home",
-  components: {NavBar},
+  data(){
+    return{
+      banners:[],
+      recommends:[]
+    }
+  },
+  components: {
+    HomeNar,
+    HomeSwiper,
+  },
+  created() {
+    this.getHomeMultidata();
+  },
+  methods:{
+    getHomeMultidata(){
+      getHomeMultidata().then(res=>{
+        console.log(res);
+        this.banners = res.data.banner.list;
+        this.recommends = res.data.recommend.list;
+      })
+    }
+  }
 }
 </script>
 
