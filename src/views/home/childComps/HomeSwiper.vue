@@ -2,7 +2,7 @@
   <div>
     <swiper>
       <swiper-item v-for="(item,index) in banners" :key="index">
-        <a :href="item.link">
+        <a href="#">
           <img :src="item.image">
         </a>
       </swiper-item>

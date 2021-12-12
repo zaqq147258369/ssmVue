@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import NavBar from "components/common/navbar/NavBar";
+import NavBar from "src/components/common/navbar/NavBar";
 
 export default {
   name: "HomeNar",
@@ -26,5 +26,13 @@ export default {
 </script>
 
 <style scoped>
-
+  .home-nav{
+    background: var(--color-tint);
+    color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+  }
 </style>
