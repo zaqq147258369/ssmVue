@@ -7,7 +7,7 @@
 <script>
 import GoodsListItem from "components/content/goods/GoodsListItem";
 export default {
-  name: "Goodslist",
+  name: "GoodsList",
   props:{
     goods:{
       type:Array,

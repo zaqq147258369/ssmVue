@@ -1,11 +1,13 @@
 <template>
   <div id="home">
     <home-nar></home-nar>
-    <home-swiper :banners="banners"></home-swiper>
-    <home-recommend-view :recommends="recommends"></home-recommend-view>
-    <home-feature-view></home-feature-view>
-    <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="tabClick"/>
-    <goodslist :goods="showGoods"></goodslist>
+    <scroll class="content" >
+      <home-swiper :banners="banners"></home-swiper>
+      <home-recommend-view :recommends="recommends"></home-recommend-view>
+      <home-feature-view></home-feature-view>
+      <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="tabClick"/>
+      <goods-list :goods="showGoods"></goods-list>
+    </scroll>
   </div>
 
 </template>
@@ -17,7 +19,8 @@ import HomeRecommendView from "./childComps/HomeRecommendView";
 import HomeFeatureView from "./childComps/HomeFeatureView";
 
 import TabControl from "src/components/content/tabControl/TabControl";
-import Goodslist from "components/content/goods/Goodslist";
+import GoodsList from "src/components/content/goods/GoodsList";
+import Scroll from "../../components/common/scroll/Scroll";
 
 import {
   getHomeMultidata,
@@ -43,13 +46,13 @@ export default {
     HomeRecommendView,
     HomeFeatureView,
     TabControl,
-    Goodslist
+    GoodsList,
+    Scroll
   },
   computed:{
     showGoods(){
       return this.goods[this.currentType].list
     }
-
   },
   created() {
     this.getHomeMultidataFun();
@@ -138,10 +141,24 @@ export default {
 <style scoped>
   #home{
     padding-top: 44px;
+    height: 100vh;
+    position: relative;
   }
   .tab-control{
     position: sticky;
     top: 44px;
     z-index: 9;
   }
+  .content{
+    /*height: 200px;*/
+    overflow: hidden;
+    position: absolute;
+    top: 44px;
+    bottom: 49px;
+  }
+  /*.content{*/
+  /*  height: calc(100% - 93px);*/
+  /*  margin-top: 44px;*/
+  /*  overflow: hidden;*/
+  /*}*/
 </style>
