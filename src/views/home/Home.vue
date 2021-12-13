@@ -49,6 +49,7 @@ export default {
     showGoods(){
       return this.goods[this.currentType].list
     }
+
   },
   created() {
     this.getHomeMultidataFun();
