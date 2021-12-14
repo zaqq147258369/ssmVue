@@ -12,6 +12,16 @@ import PullUp from '@better-scroll/pull-up'
 BScroll.use(PullUp)
 export default {
   name: "Scroll",
+  props:{
+    probeType:{
+      type:Number,
+      default:0
+    },
+    pullUpLoad:{
+      type:Boolean,
+      default: false
+    }
+  },
   data(){
     return{
       scroll:null
@@ -19,17 +29,32 @@ export default {
   },
   mounted() {
     this.scroll = new BScroll(this.$refs.wrapper,{
-      probeType:3,
-      pullUpLoad:true,
+      probeType:this.probeType,
+      pullUpLoad:this.pullUpLoad,
       click:true
     })
     this.scroll.on('scroll',(position)=>{
-      console.log(position);
+      this.$emit('scroll',position)
     })
     this.scroll.on('pullingUp',()=>{
-      console.log('下拉加载更多');
+      // console.log('下拉加载更多');
+      this.$emit('pullingUp');
     })
+    setTimeout(()=>{
+      this.scroll.refresh();
+    },500)
   },
+  methods:{
+    scrollTo(){
+      this.scroll.scrollTo(0,0,500);
+    },
+    finishPullUp1(){
+      this.scroll.finishPullUp();
+    },
+    refresh(){
+      this.scroll.refresh();
+    }
+  }
 }
 </script>
 

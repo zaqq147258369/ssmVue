@@ -1,26 +1,30 @@
 <template>
   <div id="home">
     <home-nar></home-nar>
-    <scroll class="content" >
+    <scroll class="content" ref="scroll"
+            :probe-type="3" :pull-up-load="true"
+            @scroll="contentScroll" @pullingUp="loadMore" >
       <home-swiper :banners="banners"></home-swiper>
       <home-recommend-view :recommends="recommends"></home-recommend-view>
       <home-feature-view></home-feature-view>
       <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="tabClick"/>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
+    <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
   </div>
 
 </template>
 
 <script>
-import HomeSwiper from "./childComps/HomeSwiper";
 import HomeNar from "./childComps/HomeNar";
+import HomeSwiper from "./childComps/HomeSwiper";
 import HomeRecommendView from "./childComps/HomeRecommendView";
 import HomeFeatureView from "./childComps/HomeFeatureView";
 
 import TabControl from "src/components/content/tabControl/TabControl";
 import GoodsList from "src/components/content/goods/GoodsList";
-import Scroll from "../../components/common/scroll/Scroll";
+import Scroll from "src/components/common/scroll/Scroll";
+import BackTop from "src/components/content/backTop/BackTop";
 
 import {
   getHomeMultidata,
@@ -28,6 +32,16 @@ import {
 } from "../../network/home";
 export default {
   name: "Home",
+  components: {
+    HomeNar,
+    HomeSwiper,
+    HomeRecommendView,
+    HomeFeatureView,
+    TabControl,
+    GoodsList,
+    Scroll,
+    BackTop
+  },
   data(){
     return{
       banners:[],
@@ -38,16 +52,8 @@ export default {
         'sell':{page:0, list:[]}
       },
       currentType:'pop',
+      isShowBackTop:false
     }
-  },
-  components: {
-    HomeNar,
-    HomeSwiper,
-    HomeRecommendView,
-    HomeFeatureView,
-    TabControl,
-    GoodsList,
-    Scroll
   },
   computed:{
     showGoods(){
@@ -78,6 +84,8 @@ export default {
         if (res.list !== undefined){
           this.goods[type].list.push(res.list);
           this.goods[type].page++ ;
+          this.$refs.scroll.finishPullUp1();
+          this.$refs.scroll.refresh();
         }
       })
     },
@@ -117,6 +125,10 @@ export default {
       }
       this.goods[type].page = 1 ;
       console.log(this.goods);
+      setTimeout(()=>{
+        this.$refs.scroll.finishPullUp1();
+        this.$refs.scroll.refresh();
+      },500)
     },
     /*
     * 事件监听
@@ -133,6 +145,17 @@ export default {
            this.currentType = 'sell';
            break;
        }
+    },
+    backClick(){
+      this.$refs.scroll.scrollTo();
+      // console.log('点击');
+    },
+    contentScroll(position){
+      console.log(position);
+      this.isShowBackTop = (-position.y) > 1000;
+    },
+    loadMore(){
+      this.getHomeGoodsFun(this.currentType);
     }
   }
 }
@@ -155,6 +178,9 @@ export default {
     position: absolute;
     top: 44px;
     bottom: 49px;
+  }
+  .bottom-scr{
+    height: 570px;
   }
   /*.content{*/
   /*  height: calc(100% - 93px);*/
