@@ -66,6 +66,11 @@ export default {
     this.getHomeGoodsFun('new');
     this.getHomeGoodsFun('sell');
   },
+  mounted() {
+    this.$bus.$on('itemImageLoad',()=>{
+      this.$refs.scroll.refresh();
+    })
+  },
   methods:{
     getHomeMultidataFun(){
       getHomeMultidata().then(res=>{
@@ -85,7 +90,6 @@ export default {
           this.goods[type].list.push(res.list);
           this.goods[type].page++ ;
           this.$refs.scroll.finishPullUp1();
-          this.$refs.scroll.refresh();
         }
       })
     },
@@ -127,7 +131,6 @@ export default {
       console.log(this.goods);
       setTimeout(()=>{
         this.$refs.scroll.finishPullUp1();
-        this.$refs.scroll.refresh();
       },500)
     },
     /*

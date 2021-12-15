@@ -46,13 +46,13 @@ export default {
   },
   methods:{
     scrollTo(){
-      this.scroll.scrollTo(0,0,500);
+      this.scroll && this.scroll.scrollTo && this.scroll.scrollTo(0,0,500);
     },
     finishPullUp1(){
-      this.scroll.finishPullUp();
+      this.scroll && this.scroll.finishPullUp();
     },
     refresh(){
-      this.scroll.refresh();
+      this.scroll && this.scroll.refresh();
     }
   }
 }
