@@ -29,7 +29,8 @@ import BackTop from "src/components/content/backTop/BackTop";
 import {
   getHomeMultidata,
   getHomeGoods
-} from "../../network/home";
+} from "src/network/home";
+import {debounce} from "src/common/utils";
 export default {
   name: "Home",
   components: {
@@ -67,7 +68,7 @@ export default {
     this.getHomeGoodsFun('sell');
   },
   mounted() {
-    const refresh = this.debounce(this.$refs.scroll.refresh)
+    const refresh = debounce(this.$refs.scroll.refresh,500)
     this.$bus.$on('itemImageLoad',()=>{
       refresh();
     })
@@ -76,15 +77,6 @@ export default {
     /*
     * 事件监听相关的方法
     * */
-    debounce(func,delay){
-      let timer = null;
-      return function (...args) {
-        if (timer) clearTimeout(timer)
-        timer = setTimeout(()=>{
-          func.apply(this,args)
-        },delay)
-      }
-    },
     getHomeMultidataFun(){
       getHomeMultidata().then(res=>{
         console.log(res);

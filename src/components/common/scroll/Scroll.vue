@@ -34,10 +34,12 @@ export default {
     this.scroll.on('scroll',(position)=>{
       this.$emit('scroll',position)
     })
-    this.scroll.on('pullingUp',()=>{
-      // console.log('下拉加载更多');
-      this.$emit('pullingUp');
-    })
+    if (this.pullUpLoad){
+      this.scroll.on('pullingUp',()=>{
+        // console.log('下拉加载更多');
+        this.$emit('pullingUp');
+      })
+    }
     setTimeout(()=>{
       this.scroll.refresh();
     },500)
@@ -57,8 +59,5 @@ export default {
 </script>
 
 <style scoped>
-  .wrapper{
-    height: 500px;
-    overflow: hidden;
-  }
+
 </style>
