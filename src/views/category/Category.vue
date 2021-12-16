@@ -121,20 +121,20 @@ export default {
       probeType:3,
       pullUpLoad:true
     })
-    this.scroll.on('scroll',()=>{
-      // console.log(position);
-    })
-    this.scroll.on('pullingUp',()=>{
-      console.log('下拉加载更多');
-    })
   },
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .wrapper{
-    height:200px;
+    /*height:200px;*/
     background: red;
     overflow: hidden;
+    position: absolute;
+    top: 0;
+    bottom: 49px;
+    li{
+      height: 200px;
+    }
   }
 </style>

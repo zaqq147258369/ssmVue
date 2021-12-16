@@ -4,10 +4,10 @@
     <scroll class="content" ref="scroll"
             :probe-type="3" :pull-up-load="true"
             @scroll="contentScroll" @pullingUp="loadMore" >
-      <home-swiper :banners="banners"></home-swiper>
-      <home-recommend-view :recommends="recommends"></home-recommend-view>
-      <home-feature-view></home-feature-view>
-      <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="tabClick"/>
+      <home-swiper :banners="banners" />
+      <home-recommend-view :recommends="recommends" />
+      <home-feature-view />
+      <tab-control :titles="['流行','新款','精选']" @tabClick="tabClick"/>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
@@ -67,11 +67,24 @@ export default {
     this.getHomeGoodsFun('sell');
   },
   mounted() {
+    const refresh = this.debounce(this.$refs.scroll.refresh)
     this.$bus.$on('itemImageLoad',()=>{
-      this.$refs.scroll.refresh();
+      refresh();
     })
   },
   methods:{
+    /*
+    * 事件监听相关的方法
+    * */
+    debounce(func,delay){
+      let timer = null;
+      return function (...args) {
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(()=>{
+          func.apply(this,args)
+        },delay)
+      }
+    },
     getHomeMultidataFun(){
       getHomeMultidata().then(res=>{
         console.log(res);
@@ -169,11 +182,6 @@ export default {
     padding-top: 44px;
     height: 100vh;
     position: relative;
-  }
-  .tab-control{
-    position: sticky;
-    top: 44px;
-    z-index: 9;
   }
   .content{
     /*height: 200px;*/

@@ -1,15 +1,13 @@
 <template>
-  <div class="wrapper" ref="wrapper">
-    <div class="content">
-      <slot></slot>
+    <div class="wrapper" ref="wrapper">
+      <div class="content">
+        <slot></slot>
+      </div>
     </div>
-  </div>
 </template>
 
 <script>
-import BScroll from '@better-scroll/core'
-import PullUp from '@better-scroll/pull-up'
-BScroll.use(PullUp)
+import BScroll from 'better-scroll'
 export default {
   name: "Scroll",
   props:{
@@ -59,5 +57,8 @@ export default {
 </script>
 
 <style scoped>
-
+  .wrapper{
+    height: 500px;
+    overflow: hidden;
+  }
 </style>
