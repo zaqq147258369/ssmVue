@@ -1,13 +1,21 @@
 <template>
   <div id="home">
     <home-nar></home-nar>
+    <tab-control :titles="['流行','新款','精选']"
+                 @tabClick="tabClick"
+                 ref="tabControl2"
+                 class="tab-control-nav"
+                 v-show="isTabFixed"/>
+
     <scroll class="content" ref="scroll"
             :probe-type="3" :pull-up-load="true"
             @scroll="contentScroll" @pullingUp="loadMore" >
-      <home-swiper :banners="banners" />
+      <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad"/>
       <home-recommend-view :recommends="recommends" />
       <home-feature-view />
-      <tab-control :titles="['流行','新款','精选']" @tabClick="tabClick"/>
+      <tab-control :titles="['流行','新款','精选']"
+                   @tabClick="tabClick"
+                   ref="tabControl"/>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
@@ -41,7 +49,7 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    BackTop
+    BackTop,
   },
   data(){
     return{
@@ -53,7 +61,9 @@ export default {
         'sell':{page:0, list:[]}
       },
       currentType:'pop',
-      isShowBackTop:false
+      isShowBackTop:false,
+      taboffsetTop:0,
+      isTabFixed:false
     }
   },
   computed:{
@@ -153,6 +163,8 @@ export default {
            this.currentType = 'sell';
            break;
        }
+       this.$refs.tabControl2.currentIndex = index;
+       this.$refs.tabControl.currentIndex = index
     },
     backClick(){
       this.$refs.scroll.scrollTo();
@@ -161,9 +173,15 @@ export default {
     contentScroll(position){
       console.log(position);
       this.isShowBackTop = (-position.y) > 1000;
+      this.isTabFixed = (-position.y) > this.taboffsetTop;
+      console.log(this.isTabFixed);
     },
     loadMore(){
       this.getHomeGoodsFun(this.currentType);
+    },
+    swiperImageLoad(){
+      console.log(this.$refs.tabControl.$el.offsetTop);
+      this.taboffsetTop = this.$refs.tabControl.$el.offsetTop;
     }
   }
 }
@@ -171,7 +189,7 @@ export default {
 
 <style scoped>
   #home{
-    padding-top: 44px;
+    /*padding-top: 44px;*/
     height: 100vh;
     position: relative;
   }
@@ -184,6 +202,16 @@ export default {
   }
   .bottom-scr{
     height: 570px;
+  }
+  .fixed{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+  }
+  .tab-control-nav{
+    position: relative;
+    z-index: 9;
   }
   /*.content{*/
   /*  height: calc(100% - 93px);*/
