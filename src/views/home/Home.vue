@@ -63,13 +63,24 @@ export default {
       currentType:'pop',
       isShowBackTop:false,
       taboffsetTop:0,
-      isTabFixed:false
+      isTabFixed:false,
+      saveY:0
     }
   },
   computed:{
     showGoods(){
       return this.goods[this.currentType].list
     }
+  },
+  destroyed() {
+
+  },
+  activated() {
+    this.$refs.scroll.scroll.scrollTo(0,this.saveY,0)
+    this.$refs.scroll.refresh();
+  },
+  deactivated() {
+    this.saveY = this.$refs.scroll.getScrollY();
   },
   created() {
     this.getHomeMultidataFun();
@@ -113,19 +124,22 @@ export default {
         showImg:'https://s10.mogucdn.com/mlcdn/c45406/180926_45fkj8ifdj4l824l42dgf9hd0h495_750x390.jpg',
         title:'假数据展示',
         price:'1.00',
-        collect:'20'
+        collect:'20',
+        iid:'111'
       }
       const clientUrl2 = {
         showImg:'https://s10.mogucdn.com/mlcdn/c45406/180926_31eb9h75jc217k7iej24i2dd0jba3_750x390.jpg',
         title:'假数据展示',
         price:'1.00',
-        collect:'20'
+        collect:'20',
+        iid:'222'
       }
       const clientUrl3 = {
         showImg:'https://s10.mogucdn.com/mlcdn/c45406/180917_18l981g6clk33fbl3833ja357aaa0_750x390.jpg',
         title:'假数据展示',
         price:'1.00',
-        collect:'20'
+        collect:'20',
+        iid:'333'
       }
       let i = 30;
       while (i > 0){
@@ -171,7 +185,7 @@ export default {
       // console.log('点击');
     },
     contentScroll(position){
-      console.log(position);
+      // console.log(position);
       this.isShowBackTop = (-position.y) > 1000;
       this.isTabFixed = (-position.y) > this.taboffsetTop;
       console.log(this.isTabFixed);
