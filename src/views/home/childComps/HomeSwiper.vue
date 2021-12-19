@@ -12,6 +12,10 @@
 import {Swiper,SwiperItem} from "src/components/common/swiper";
 export default {
   name: "HomeSwiper",
+  components:{
+    Swiper,
+    SwiperItem
+  },
   props:{
     banners:{
       type:Array,
@@ -24,10 +28,6 @@ export default {
     return{
       isLoad : false
     }
-  },
-  components:{
-    Swiper,
-    SwiperItem
   },
   methods:{
     imageLoad(){
