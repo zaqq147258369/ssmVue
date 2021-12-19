@@ -1,7 +1,7 @@
 <template>
   <div id="detail">
     <detail-nav-bar />
-    <detail-swiper :top-change-images="topChangeImages"/>
+    <detail-swiper :topChangeImages="topChangeImages"></detail-swiper>
   </div>
 </template>
 
@@ -9,7 +9,9 @@
 import DetailNavBar from "./childComps/DetailNavBar";
 import DetailSwiper from "./childComps/DetailSwiper";
 
-import {getDetail} from "src/network/detail";
+import {
+  getDetail
+} from "src/network/detail";
 export default {
   name: "Detail",
   components:{
@@ -19,8 +21,7 @@ export default {
   data(){
     return{
       iid:null,
-      topChangeImages:[]
-
+      topChangeImages:[],
     }
   },
   activated() {
@@ -30,13 +31,17 @@ export default {
   },
   methods:{
     getDetail(){
+      const giftList = [
+        'https://s10.mogucdn.com/mlcdn/c45406/180926_45fkj8ifdj4l824l42dgf9hd0h495_750x390.jpg',
+        'https://s10.mogucdn.com/mlcdn/c45406/180926_31eb9h75jc217k7iej24i2dd0jba3_750x390.jpg',
+        'https://s10.mogucdn.com/mlcdn/c45406/180917_18l981g6clk33fbl3833ja357aaa0_750x390.jpg'];
+      const aaa= [];
+      for (let i = 0;i<3;i++){
+        aaa.push(giftList[i]);
+      }
+      this.topChangeImages = aaa;
       getDetail(this.id).then(res=>{
         console.log(res);
-        const giftList = res.result.promo_model[0].gift_list;
-        giftList.forEach((v)=>{
-          this.topChangeImages.push(v.exchange_img_url);
-        })
-        console.log(this.topChangeImages);
       })
     }
   }
