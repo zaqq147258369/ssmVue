@@ -1,47 +1,53 @@
 <template>
   <div id="detail">
     <detail-nav-bar />
-    <detail-swiper :topChangeImages="topChangeImages"></detail-swiper>
+    <detail-swiper :topChangeImages="topChangeImages" v-if="flag" />
+    <detail-base-info :goodInfo="goodInfo" v-if="flag"/>
   </div>
 </template>
 
 <script>
 import DetailNavBar from "./childComps/DetailNavBar";
 import DetailSwiper from "./childComps/DetailSwiper";
+import DetailBaseInfo from "views/detail/childComps/DetailBaseInfo";
 
 import {
-  getDetail
+  getDetail,
+  GoodsInfo
 } from "src/network/detail";
 export default {
   name: "Detail",
   components:{
     DetailSwiper,
-    DetailNavBar
+    DetailNavBar,
+    DetailBaseInfo
   },
   data(){
     return{
       iid:null,
       topChangeImages:[],
+      flag:false,
+      goodInfo: {}
     }
   },
-  activated() {
+  created() {
     console.log(this.$route.params);
     this.iid = this.$route.params.iid;
     this.getDetail();
   },
   methods:{
     getDetail(){
-      const giftList = [
-        'https://s10.mogucdn.com/mlcdn/c45406/180926_45fkj8ifdj4l824l42dgf9hd0h495_750x390.jpg',
-        'https://s10.mogucdn.com/mlcdn/c45406/180926_31eb9h75jc217k7iej24i2dd0jba3_750x390.jpg',
-        'https://s10.mogucdn.com/mlcdn/c45406/180917_18l981g6clk33fbl3833ja357aaa0_750x390.jpg'];
-      const aaa= [];
-      for (let i = 0;i<3;i++){
-        aaa.push(giftList[i]);
-      }
-      this.topChangeImages = aaa;
       getDetail(this.id).then(res=>{
-        console.log(res);
+        const data = res.result;
+        const giftList = res.result.data.images;
+        //轮播图
+        this.topChangeImages = giftList;
+        // 获取商品信息
+        this.goodInfo = new GoodsInfo(data.data.productName,data.new_price,data.saleCount,data.service);
+        console.log(this.goodInfo);
+        //当父组件给子组件传值，使用异步获取数据，首先给子组件传空值，之后刷新数据。
+        // 但是这个步骤可能会造成子组件数据错误，子组件过早初始化了
+        this.flag = true;
       })
     }
   }

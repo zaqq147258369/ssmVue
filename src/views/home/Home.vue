@@ -36,7 +36,7 @@ import BackTop from "src/components/content/backTop/BackTop";
 
 import {
   getHomeMultidata,
-  getHomeGoods
+  getHomeGoods2
 } from "src/network/home";
 import {debounce} from "src/common/utils";
 export default {
@@ -107,60 +107,16 @@ export default {
     },
     getHomeGoodsFun(type){
       const page = this.goods[type].page+1;
-      //假数据
-      this.setGoodsByJson(type);
       // 真实数据
-      getHomeGoods(type,page).then(res=>{
-        console.log(res);
-        if (res.list !== undefined){
-          this.goods[type].list.push(res.list);
+      getHomeGoods2(type,page).then(res=>{
+        console.log(res.data);
+        if (res.data !== undefined){
+          this.goods[type].list = res.data;
           this.goods[type].page++ ;
           this.$refs.scroll.finishPullUp1();
         }
+        console.log(this.goods);
       })
-    },
-    setGoodsByJson(type){
-      const clientUrl = {
-        showImg:'https://s10.mogucdn.com/mlcdn/c45406/180926_45fkj8ifdj4l824l42dgf9hd0h495_750x390.jpg',
-        title:'假数据展示',
-        price:'1.00',
-        collect:'20',
-        iid:'111'
-      }
-      const clientUrl2 = {
-        showImg:'https://s10.mogucdn.com/mlcdn/c45406/180926_31eb9h75jc217k7iej24i2dd0jba3_750x390.jpg',
-        title:'假数据展示',
-        price:'1.00',
-        collect:'20',
-        iid:'222'
-      }
-      const clientUrl3 = {
-        showImg:'https://s10.mogucdn.com/mlcdn/c45406/180917_18l981g6clk33fbl3833ja357aaa0_750x390.jpg',
-        title:'假数据展示',
-        price:'1.00',
-        collect:'20',
-        iid:'333'
-      }
-      let i = 30;
-      while (i > 0){
-        switch (type) {
-          case 'pop':
-            this.goods[type].list.push(clientUrl);
-            break;
-          case 'new':
-            this.goods[type].list.push(clientUrl2);
-            break;
-          case 'sell':
-            this.goods[type].list.push(clientUrl3);
-            break;
-        }
-        i--;
-      }
-      this.goods[type].page = 1 ;
-      console.log(this.goods);
-      setTimeout(()=>{
-        this.$refs.scroll.finishPullUp1();
-      },500)
     },
     /*
     * 事件监听

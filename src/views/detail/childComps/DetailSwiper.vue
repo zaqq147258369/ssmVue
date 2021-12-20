@@ -1,5 +1,5 @@
 <template>
-    <swiper>
+    <swiper class="swiperD">
       <swiper-item v-for="(item,index) in topChangeImages" :key="index" >
         <img :src="item" alt="">
       </swiper-item>
@@ -29,5 +29,6 @@ export default {
 <style scoped>
   .swiperD{
     height: 300px;
+    overflow: hidden;
   }
 </style>
