@@ -9,6 +9,15 @@ export function getDetail(iid) {
   })
 }
 
+export function getShopDetail(iid) {
+  return request2({
+    url:'/detail/shop',
+    params:{
+      iid
+    }
+  })
+}
+
 export class GoodsInfo {
   constructor(productName,itemInfo,colums,services) {
     this.title = productName //标题
@@ -20,4 +29,28 @@ export class GoodsInfo {
     this.services = services
     this.realPrice = itemInfo.price_4_sale;
   }
+}
+
+export class Shop{
+  constructor(shopInfo) {
+    this.logo = shopInfo.logo;
+    this.name = shopInfo.shopName;
+    this.fans = shopInfo.watched_number;
+    this.sells = shopInfo.dsrdata.product_count;
+    this.score = [{
+      "isBetter":false,
+      "score":shopInfo.dsrdata.descriptionRating,
+      "name":"描述相符"
+    },{
+      "isBetter":false,
+      "score":shopInfo.dsrdata.serviceRating,
+      "name":"服务态度"
+    },{
+      "isBetter":true,
+      "score":shopInfo.dsrdata.qualityRating,
+      "name":"发货速度"
+    }]
+    this.goodsCount = shopInfo.dsrdata.shop_id;
+  }
+
 }

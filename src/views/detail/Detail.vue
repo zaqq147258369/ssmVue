@@ -1,8 +1,9 @@
 <template>
-  <div id="detail">
+  <div id="detail" style="margin-bottom: 50px">
     <detail-nav-bar />
     <detail-swiper :topChangeImages="topChangeImages" v-if="flag" />
     <detail-base-info :goodInfo="goodInfo" v-if="flag"/>
+    <detail-shop-info :shop="shopInfo"/>
   </div>
 </template>
 
@@ -10,30 +11,36 @@
 import DetailNavBar from "./childComps/DetailNavBar";
 import DetailSwiper from "./childComps/DetailSwiper";
 import DetailBaseInfo from "views/detail/childComps/DetailBaseInfo";
+import DetailShopInfo from "./childComps/DetailShopInfo";
 
 import {
   getDetail,
-  GoodsInfo
+  getShopDetail,
+  GoodsInfo,
+  Shop
 } from "src/network/detail";
 export default {
   name: "Detail",
   components:{
     DetailSwiper,
     DetailNavBar,
-    DetailBaseInfo
+    DetailBaseInfo,
+    DetailShopInfo
   },
   data(){
     return{
       iid:null,
       topChangeImages:[],
       flag:false,
-      goodInfo: {}
+      goodInfo: {},
+      shopInfo:{}
     }
   },
   created() {
     console.log(this.$route.params);
     this.iid = this.$route.params.iid;
     this.getDetail();
+    this.getShopInfo();
   },
   methods:{
     getDetail(){
@@ -48,6 +55,12 @@ export default {
         //当父组件给子组件传值，使用异步获取数据，首先给子组件传空值，之后刷新数据。
         // 但是这个步骤可能会造成子组件数据错误，子组件过早初始化了
         this.flag = true;
+      })
+    },
+    getShopInfo(){
+      getShopDetail(this.iid).then(res=>{
+        this.shopInfo = new Shop(res)
+        console.log(this.shopInfo);
       })
     }
   }

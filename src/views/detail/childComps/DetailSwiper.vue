@@ -28,7 +28,7 @@ export default {
 
 <style scoped>
   .swiperD{
-    height: 300px;
+    /*height: 500px;*/
     overflow: hidden;
   }
 </style>
