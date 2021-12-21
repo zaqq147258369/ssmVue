@@ -1,9 +1,11 @@
 <template>
-  <div id="detail" style="margin-bottom: 50px">
+  <div id="detail" >
     <detail-nav-bar />
-    <detail-swiper :topChangeImages="topChangeImages" v-if="flag" />
-    <detail-base-info :goodInfo="goodInfo" v-if="flag"/>
-    <detail-shop-info :shop="shopInfo"/>
+    <scroll>
+      <detail-swiper :topChangeImages="topChangeImages" v-if="flag" />
+      <detail-base-info :goodInfo="goodInfo" v-if="flag"/>
+      <detail-shop-info :shop="shopInfo"/>
+    </scroll>
   </div>
 </template>
 
@@ -12,6 +14,8 @@ import DetailNavBar from "./childComps/DetailNavBar";
 import DetailSwiper from "./childComps/DetailSwiper";
 import DetailBaseInfo from "views/detail/childComps/DetailBaseInfo";
 import DetailShopInfo from "./childComps/DetailShopInfo";
+
+import Scroll from "components/common/scroll/Scroll";
 
 import {
   getDetail,
@@ -25,7 +29,8 @@ export default {
     DetailSwiper,
     DetailNavBar,
     DetailBaseInfo,
-    DetailShopInfo
+    DetailShopInfo,
+    Scroll
   },
   data(){
     return{
@@ -68,5 +73,9 @@ export default {
 </script>
 
 <style scoped>
-
+  #detail{
+    position: relative;
+    z-index: 9;
+    background: #ffffff;
+  }
 </style>
