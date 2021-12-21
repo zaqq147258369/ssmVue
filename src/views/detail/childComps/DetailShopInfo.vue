@@ -49,7 +49,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .shop-info {
   padding: 25px 8px;
   border-bottom: 5px solid #f2f5f8;
@@ -107,12 +107,16 @@ export default {
 }
 
 .shop-middle-right table {
-  width: 120px;
-  margin-left: 30px;
+  width: 90%;
+  margin-left:10%;
+  tr{
+    display: flex;
+  }
 }
 
 .shop-middle-right table td {
   padding: 5px 0;
+  flex: 1;
 }
 
 .shop-middle-right .score {

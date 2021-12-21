@@ -1,7 +1,7 @@
 <template>
   <div id="detail" >
-    <detail-nav-bar />
-    <scroll>
+    <detail-nav-bar class="detail-nav"/>
+    <scroll class="content">
       <detail-swiper :topChangeImages="topChangeImages" v-if="flag" />
       <detail-base-info :goodInfo="goodInfo" v-if="flag"/>
       <detail-shop-info :shop="shopInfo"/>
@@ -77,5 +77,14 @@ export default {
     position: relative;
     z-index: 9;
     background: #ffffff;
+    height: 100vh;
+  }
+  .detail-nav{
+    position: relative;
+    z-index: 9;
+    background: #ffffff;
+  }
+  .content{
+    height: calc(100% - 44px);
   }
 </style>
