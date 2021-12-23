@@ -19,5 +19,8 @@ module.exports = {
           path.resolve(__dirname, './src/assets/css/*.scss')
         ]
       }
-    }
+    },
+  devServer:{
+      port:8088,
+  }
 }

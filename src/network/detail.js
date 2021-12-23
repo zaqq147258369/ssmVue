@@ -18,6 +18,15 @@ export function getShopDetail(iid) {
   })
 }
 
+export function getParameterImages(iid) {
+  return request2({
+    url:'/data/parameterImages',
+    params:{
+      iid
+    }
+  })
+}
+
 export class GoodsInfo {
   constructor(productName,itemInfo,colums,services) {
     this.title = productName //标题

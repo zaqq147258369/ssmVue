@@ -1,10 +1,11 @@
 <template>
   <div id="detail" >
     <detail-nav-bar class="detail-nav"/>
-    <scroll class="content">
+    <scroll class="content" ref="scroll">
       <detail-swiper :topChangeImages="topChangeImages" v-if="flag" />
       <detail-base-info :goodInfo="goodInfo" v-if="flag"/>
       <detail-shop-info :shop="shopInfo"/>
+      <detail-goods-info :detail-info="detailInfo" @imageload="imageLoad"/>
     </scroll>
   </div>
 </template>
@@ -14,11 +15,12 @@ import DetailNavBar from "./childComps/DetailNavBar";
 import DetailSwiper from "./childComps/DetailSwiper";
 import DetailBaseInfo from "views/detail/childComps/DetailBaseInfo";
 import DetailShopInfo from "./childComps/DetailShopInfo";
+import DetailGoodsInfo from "views/detail/childComps/DetailGoodsInfo";
 
 import Scroll from "components/common/scroll/Scroll";
 
 import {
-  getDetail,
+  getDetail, getParameterImages,
   getShopDetail,
   GoodsInfo,
   Shop
@@ -30,7 +32,8 @@ export default {
     DetailNavBar,
     DetailBaseInfo,
     DetailShopInfo,
-    Scroll
+    DetailGoodsInfo,
+    Scroll,
   },
   data(){
     return{
@@ -38,7 +41,8 @@ export default {
       topChangeImages:[],
       flag:false,
       goodInfo: {},
-      shopInfo:{}
+      shopInfo:{},
+      detailInfo:{}
     }
   },
   created() {
@@ -46,6 +50,7 @@ export default {
     this.iid = this.$route.params.iid;
     this.getDetail();
     this.getShopInfo();
+    this.getParameterImages();
   },
   methods:{
     getDetail(){
@@ -67,6 +72,15 @@ export default {
         this.shopInfo = new Shop(res)
         console.log(this.shopInfo);
       })
+    },
+    getParameterImages(){
+      getParameterImages(this.iid).then(res=>{
+        console.log(res);
+        this.detailInfo = res;
+      })
+    },
+    imageLoad(){
+      this.$refs.scroll.refresh()
     }
   }
 }
