@@ -6,6 +6,7 @@
       <detail-base-info :goodInfo="goodInfo" v-if="flag"/>
       <detail-shop-info :shop="shopInfo"/>
       <detail-goods-info :detail-info="detailInfo" @imageload="imageLoad"/>
+      <detail-param-info />
     </scroll>
   </div>
 </template>
@@ -16,6 +17,7 @@ import DetailSwiper from "./childComps/DetailSwiper";
 import DetailBaseInfo from "views/detail/childComps/DetailBaseInfo";
 import DetailShopInfo from "./childComps/DetailShopInfo";
 import DetailGoodsInfo from "views/detail/childComps/DetailGoodsInfo";
+import DetailParamInfo from "./childComps/DetailParamInfo";
 
 import Scroll from "components/common/scroll/Scroll";
 
@@ -33,6 +35,7 @@ export default {
     DetailBaseInfo,
     DetailShopInfo,
     DetailGoodsInfo,
+    DetailParamInfo,
     Scroll,
   },
   data(){
