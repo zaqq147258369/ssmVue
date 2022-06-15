@@ -1,5 +1,5 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import Vue from "vue"
+import VueRouter from "vue-router"
 
 const Home = ()=> import('src/views/home/Home')
 const Category = ()=> import('src/views/category/Category')
