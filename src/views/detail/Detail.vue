@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script>
+<script> 
 import DetailNavBar from "./childComps/DetailNavBar";
 import DetailSwiper from "./childComps/DetailSwiper";
 import DetailBaseInfo from "views/detail/childComps/DetailBaseInfo";
@@ -45,7 +45,9 @@ export default {
       flag:false,
       goodInfo: {},
       shopInfo:{},
-      detailInfo:{}
+      detailInfo:{},
+      itemParams:{},
+      commentInfo:{}
     }
   },
   created() {
